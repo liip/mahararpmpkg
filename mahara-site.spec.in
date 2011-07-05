@@ -1,4 +1,4 @@
-%define maharawebdir  /var/www/@PKGNAME@
+%define maharawebdir  /var/www/@PKGNAME@/htdocs
 %define maharadatadir /var/lib/sitedata/@PKGNAME@
 %define logdir        /var/log/httpd
 %define httpdconfdir  /etc/httpd/conf.d
