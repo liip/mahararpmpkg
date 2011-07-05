@@ -1,0 +1,18 @@
+/var/log/httpd/__PKGNAME__.access.log /var/log/httpd/__PKGNAME__.cron.log {
+    missingok
+    notifempty
+    daily
+    create 0640 apache apache
+}
+
+/var/log/httpd/__PKGNAME__.error.log {
+    missingok
+    notifempty
+    daily
+    create 0640 apache apache
+    postrotate
+        if [ -f /var/run/httpd/httpd.pid ]; then
+            /etc/init.d/httpd graceful > /dev/null
+        fi
+    endscript
+}

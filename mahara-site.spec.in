@@ -1,0 +1,94 @@
+%define maharawebdir  /var/www/@PKGNAME@
+%define maharadatadir /var/lib/sitedata/@PKGNAME@
+%define logdir        /var/log/httpd
+%define httpdconfdir  /etc/httpd/conf.d
+%define maharacronlog  /var/log/httpd/mahara.cron.log
+
+# Suppress finding Perl libraries supplied by filter/algebra/*.p?
+%define __perl_requires %{nil}
+%define __perl_provides %{nil}
+
+Name:           @PKGNAME@
+Version:        @VERSION@
+Release:        1%{?dist}
+Summary:        Open source eportfolios
+
+Group:          Applications/Publishing
+License:        GPLv3+
+URL:            http://mahara.org/
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root
+
+BuildArch:      noarch
+Source:         %{name}-%{version}.tar.gz
+
+# BuildRequires:  unzip
+Requires:       vixie-cron httpd ghostscript php53 php53-common php53-mbstring php53-gd php53-pgsql
+Requires(post): /sbin/chkconfig
+Requires(preun): /sbin/chkconfig
+Requires(preun): /sbin/service
+
+# rsvg-convert is used to render icons...
+Requires:       librsvg2
+
+Obsoletes:      @PKGNAME@
+Provides:       @PKGNAME@
+
+%description
+Mahara is an open source e-portfolio system with a flexible display framework.
+Mahara, meaning 'think' or 'thought' in Te Reo Māori, is user centred
+environment with a permissions framework that enables different views of an
+e-portfolio to be easily managed. Mahara also features a weblog, resume builder
+and social networking system, connecting users and creating online learner
+communities.
+
+%prep
+%setup -q -n %{name}-%{version}
+
+find . -type f \! -name \*.pl -exec chmod a-x {} \;
+find . -name \*.cgi -exec chmod a+x {} \;
+
+%build
+# Get rid of unwarranted stuff
+# rm config-dist.php
+
+%install
+rm -rf $RPM_BUILD_ROOT
+mkdir -p $RPM_BUILD_ROOT%{maharawebdir}
+mkdir -p $RPM_BUILD_ROOT%{maharadatadir}
+mkdir -p $RPM_BUILD_ROOT%{logdir}
+cp -a * $RPM_BUILD_ROOT%{maharawebdir}
+install -p -D -m 0644 rpm/mahara.conf $RPM_BUILD_ROOT%{httpdconfdir}/@PKGNAME@.conf
+sed -i 's#__PKGNAME__#@PKGNAME@#g' $RPM_BUILD_ROOT%{httpdconfdir}/@PKGNAME@.conf
+install -p -D -m 0644 $RPM_BUILD_ROOT%{maharawebdir}/config-dist.php $RPM_BUILD_ROOT%{maharawebdir}/config.php
+install -p -D -m 0644 rpm/mahara.cron $RPM_BUILD_ROOT%{_sysconfdir}/cron.d/@PKGNAME@
+sed -i 's#__PKGNAME__#@PKGNAME@#g' $RPM_BUILD_ROOT%{_sysconfdir}/cron.d/@PKGNAME@
+install -p -D -m 0644 rpm/mahara.logrotate $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/@PKGNAME@
+sed -e 's#__PKGNAME__#@PKGNAME@#g' $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/@PKGNAME@
+rm -fr $RPM_BUILD_ROOT%{maharawebdir}/rpm
+rm $RPM_BUILD_ROOT%{maharawebdir}/Makefile
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%post
+if [ $1 -eq 1 ] ; then
+	/bin/touch %maharacronlog
+	/bin/chown apache.apache %maharacronlog
+	/bin/chmod 0640 %maharacronlog
+fi
+
+%preun
+
+%files
+%defattr(-,root,root)
+%doc README*
+%attr(775,root,root) %{maharawebdir}
+%dir %{maharawebdir}
+%config(noreplace) %{maharawebdir}/config.php
+%config(noreplace) %{_sysconfdir}/logrotate.d/@PKGNAME@
+%attr(775,apache,apache) %{maharadatadir}
+%attr(755,root,root) %{logdir}
+%config(noreplace) %attr(-,root,root) %{_sysconfdir}/cron.d/@PKGNAME@
+%config(noreplace) %{httpdconfdir}/@PKGNAME@.conf
+
+%changelog

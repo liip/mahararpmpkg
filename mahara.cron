@@ -1,0 +1,2 @@
+* * * * * apache (echo == Running cron - `date ` ==; /usr/bin/php /var/www/__PKGNAME__/lib/cron.php 2>&1 ) >> /var/log/httpd/__PKGNAME__.cron.log 2>&1
+

@@ -1,0 +1,11 @@
+PKGNAME=__PKGNAME__
+
+all: build
+
+clean:
+	make -f packaging/Makefile clean
+
+build:
+	make -f packaging/Makefile
+
+.PHONY: build
