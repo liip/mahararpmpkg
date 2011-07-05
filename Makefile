@@ -26,7 +26,7 @@ $(TARBALL):
 	mkdir -p $(BUILDDIR)/BUILD $(BUILDDIR)/RPMS \
 	$(BUILDDIR)/SOURCES $(BUILDDIR)/SRPMS
 	mkdir -p $(TMP)/$(NV)
-	git archive --format=tar --prefix="$(NV)/" --output=$(TMP)/$(NV).tar HEAD
+	/bin/bash git-archive.sh $(TMP) $(NV)
 	echo $(VERSION) > $(TMP)/$(NV)/build-version
 	tar -rf $(TMP)/$(NV).tar $(TMP)/$(NV)/build-version
 	gzip $(TMP)/$(NV).tar
