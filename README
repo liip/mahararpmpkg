@@ -1,1 +1,59 @@
-TODO
+This readme provides some basic information on how to setup up RPM packaging
+for a Mahara project.
+The packaging mechanism allows you to wrap your Mahara project into an
+RPM package and thus gives you easy deployments and dependency management.
+
+Prerequisits
+============
+These scripts have been tested on CentOS. They should work out of the box on
+RedHat. To use them on Fedora you might have change the RPM spec file
+specifically you will need to adapt the dependencies to work on Fedora.
+To be able to build RPM packages you will need to install the package
+rpm-build
+which is available from the standard repository.
+
+Next you will of course need to have git clone of mahara:
+git clone git://gitorious.org/mahara/mahara.git
+
+You probably should have at least a local branch to manage any
+customisations you intend to do. In the project directory do:
+git checkout -b my-mahara-project -t origin/1.4_STABLE
+
+Now you need to add the rpm packaging code as a submodule:
+git submodule add git://git.liip.ch/public/elearning/deployment/rpmpackaging \
+htdocs/rpm
+
+git submodule init
+git submodule update
+
+Next go to the 'htdocs' directory and run the following command to setup you
+project:
+rpm/setup.sh
+
+This asks you for the project name, your full name and your email address
+which are necessary to setup the packaging.
+After running this command succesfully you will have a Makefile and a
+changelog in your 'htdocs' directory. Both files should be committed to
+version control.
+
+Before you can build your first package you need to create an annotated tag.
+The packaging mechanism uses the latest tag to create a version number.
+
+git tag -a -s mah14-mysite-site-2011070701
+
+How you actually name your tags is mostly up to you. But you must add the
+date at the end in the form YYYYMMDDNN where 'NN' is just a counter that
+allows you to create several releases on the same day.
+
+Once you created a tag you can start building your first package by simply
+typing 'make' in your 'htdocs' directory.
+After the build process has run through you'll have an RPM package in
+/tmp/<my-mahara-projcet>/RPMS/noarch/
+
+You can now install this package on a RedHat or CentOS server.
+After the installation you still need to do the following steps:
+* create a database user and database
+* edit the Mahara config.php and add database information and dataroot
+* edit apache conf in /etc/httpd/conf.d/<my-mahara-project>.conf and set the
+  servername
+
