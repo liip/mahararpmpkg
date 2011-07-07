@@ -2,7 +2,7 @@
 %define maharadatadir /var/www/@PKGNAME@/data
 %define logdir        /var/log/httpd
 %define httpdconfdir  /etc/httpd/conf.d
-%define maharacronlog  /var/log/httpd/mahara.cron.log
+%define maharacronlog  /var/log/httpd/@PKGNAME@.cron.log
 
 # Suppress finding Perl libraries supplied by filter/algebra/*.p?
 %define __perl_requires %{nil}
