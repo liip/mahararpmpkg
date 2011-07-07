@@ -1,5 +1,5 @@
 %define maharawebdir  /var/www/@PKGNAME@/htdocs
-%define maharadatadir /var/lib/sitedata/@PKGNAME@
+%define maharadatadir /var/www/@PKGNAME@/data
 %define logdir        /var/log/httpd
 %define httpdconfdir  /etc/httpd/conf.d
 %define maharacronlog  /var/log/httpd/mahara.cron.log
@@ -63,7 +63,7 @@ install -p -D -m 0644 $RPM_BUILD_ROOT%{maharawebdir}/config-dist.php $RPM_BUILD_
 install -p -D -m 0644 rpm/mahara.cron $RPM_BUILD_ROOT%{_sysconfdir}/cron.d/@PKGNAME@
 sed -i 's#__PKGNAME__#@PKGNAME@#g' $RPM_BUILD_ROOT%{_sysconfdir}/cron.d/@PKGNAME@
 install -p -D -m 0644 rpm/mahara.logrotate $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/@PKGNAME@
-sed -e 's#__PKGNAME__#@PKGNAME@#g' $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/@PKGNAME@
+sed -i 's#__PKGNAME__#@PKGNAME@#g' $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/@PKGNAME@
 rm -fr $RPM_BUILD_ROOT%{maharawebdir}/rpm
 rm $RPM_BUILD_ROOT%{maharawebdir}/Makefile
 
