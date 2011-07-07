@@ -3,9 +3,9 @@ export PKGNAME=__PKGNAME__
 all: build
 
 clean:
-	make -f packaging/Makefile clean
+	make -f rpm/Makefile clean
 
 build:
-	make -f packaging/Makefile RPM
+	make -f rpm/Makefile RPM
 
 .PHONY: build
