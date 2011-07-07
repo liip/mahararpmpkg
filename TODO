@@ -1,0 +1,9 @@
+must haves:
+* fix git-arch.sh so it handles submodules anywhere in the tree
+* find a way to prevent *.rpmsave files being created in the document root
+  (security issue)
+
+nice to haves:
+* add a script to generate changelog entries
+* add possibility to store settings in the Makefile and create config and
+  database during the installation
