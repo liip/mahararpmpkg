@@ -45,6 +45,7 @@ mahara-site.spec: rpm/mahara-site.spec.in
 		-e 's:@RELEASE@:$(RELEASE):g' \
 		-e 's:@COMMITID@:$(COMMITID):g' \
 		< $< > $(SPEC)
+	cat changelog >> $(SPEC)
 
 RPM: $(RPM)
 $(RPM): SRPM
