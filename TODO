@@ -1,5 +1,4 @@
 must haves:
-* fix git-arch.sh so it handles submodules anywhere in the tree
 * find a way to prevent *.rpmsave files being created in the document root
   (security issue)
 
