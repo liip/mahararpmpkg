@@ -20,8 +20,7 @@ customisations you intend to do. In the project directory do:
 git checkout -b my-mahara-project -t origin/1.4_STABLE
 
 Now you need to add the rpm packaging code as a submodule:
-git submodule add git://git.liip.ch/public/elearning/deployment/rpmpackaging \
-htdocs/rpm
+git submodule add git://github.com/liip/mahararpmpkg.git htdocs/rpm
 
 git submodule init
 git submodule update
