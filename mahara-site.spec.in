@@ -71,8 +71,6 @@ sed -i 's#__PKGNAME__#@PKGNAME@#g' $RPM_BUILD_ROOT%{httpdconfdir}/@PKGNAME@.conf
 install -p -D -m 0644 $RPM_BUILD_ROOT%{maharawebdir}/config-dist.php $RPM_BUILD_ROOT%{maharawebdir}/config.php
 install -p -D -m 0644 rpm/mahara.cron $RPM_BUILD_ROOT%{_sysconfdir}/cron.d/@PKGNAME@
 sed -i 's#__PKGNAME__#@PKGNAME@#g' $RPM_BUILD_ROOT%{_sysconfdir}/cron.d/@PKGNAME@
-install -p -D -m 0644 rpm/mahara.logrotate $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/@PKGNAME@
-sed -i 's#__PKGNAME__#@PKGNAME@#g' $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/@PKGNAME@
 rm -fr $RPM_BUILD_ROOT%{maharawebdir}/rpm
 rm $RPM_BUILD_ROOT%{maharawebdir}/Makefile
 
@@ -94,7 +92,6 @@ fi
 %attr(775,root,root) %{maharawebdir}
 %dir %{maharawebdir}
 %config(noreplace) %{maharawebdir}/config.php
-%config(noreplace) %{_sysconfdir}/logrotate.d/@PKGNAME@
 %attr(775,apache,apache) %{maharadatadir}
 %attr(755,root,root) %{logdir}
 %config(noreplace) %attr(-,root,root) %{_sysconfdir}/cron.d/@PKGNAME@
