@@ -25,13 +25,6 @@ Source:         %{name}-%{version}.tar.gz
 Requires:       vixie-cron
 Requires:       httpd
 Requires:       ghostscript
-Requires:       php >= 5.2
-Requires:       php-common >= 5.2
-Requires:       php-mbstring >= 5.2
-Requires:       php-gd >= 5.2
-Requires:       php-pgsql >= 5.2
-Requires:       php-xml >= 5.2
-Requires:       php >= 5.2
 Requires(post): /sbin/chkconfig
 Requires(preun): /sbin/chkconfig
 Requires(preun): /sbin/service
